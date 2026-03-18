@@ -4,7 +4,7 @@ namespace Pusher;
 
 class PusherInstance
 {
-    private static $instance = null;
+    private static $instance;
     private static $app_id = '';
     private static $secret = '';
     private static $api_key = '';

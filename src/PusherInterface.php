@@ -19,7 +19,6 @@ interface PusherInterface
      * Optionally provide a socket ID to exclude a client (most likely the sender).
      *
      * @param array|string $channels        A channel name or an array of channel names to publish the event on.
-     * @param string       $event
      * @param mixed        $data            Event data
      * @param array        $params          [optional]
      * @param bool         $already_encoded [optional]
@@ -124,9 +123,6 @@ interface PusherInterface
     /**
      * Creates a socket signature.
      *
-     * @param string $channel
-     * @param string $socket_id
-     * @param string|null $custom_data
      * @return string Json encoded authentication string.
      * @throws PusherException Throws exception if $channel is invalid or above or $socket_id is invalid
      */
@@ -223,9 +219,6 @@ interface PusherInterface
      *
      * @deprecated in favour of socketAuth
      *
-     * @param string $channel
-     * @param string $socket_id
-     * @param string|null $custom_data
      * @return string Json encoded authentication string.
      * @throws PusherException Throws exception if $channel is invalid or above or $socket_id is invalid
      */

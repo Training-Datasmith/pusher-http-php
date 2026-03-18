@@ -24,7 +24,6 @@ class PusherCrypto
     /**
      * Checks if channels are a mix of encrypted and non-encrypted types.
      *
-     * @param  array  $channels
      * @return bool true when mixed channel types are discovered
      */
     public static function has_mixed_channels(array $channels): bool
@@ -36,15 +35,13 @@ class PusherCrypto
             if(self::is_encrypted_channel($channel)) {
                 if ($unencrypted_seen) {
                     return true;
-                } else {
-                    $encrypted_seen = true;
                 }
+                $encrypted_seen = true;
             } else {
                 if ($encrypted_seen) {
                     return true;
-                } else {
-                    $unencrypted_seen = true;
                 }
+                $unencrypted_seen = true;
             }
         }
         
@@ -53,7 +50,6 @@ class PusherCrypto
 
     /**
      * @param $encryption_master_key_base64
-     * @return string
      * @throws PusherException
      */
     public static function parse_master_key($encryption_master_key_base64): string
@@ -218,7 +214,6 @@ class PusherCrypto
 
     /**
      * Generates a nonce that is SODIUM_CRYPTO_SECRETBOX_NONCEBYTES long.
-     * @return string
      * @throws \Exception
      */
     private function generate_nonce(): string

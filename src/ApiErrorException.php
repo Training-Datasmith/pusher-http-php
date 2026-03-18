@@ -11,8 +11,6 @@ class ApiErrorException extends PusherException
 {
     /**
      * Returns the string representation of the exception.
-     *
-     * @return string
      */
     public function __toString(): string
     {
