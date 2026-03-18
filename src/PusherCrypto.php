@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pusher;
 
 class PusherCrypto
@@ -32,7 +34,7 @@ class PusherCrypto
         $encrypted_seen = false;
 
         foreach ($channels as $channel) {
-            if(self::is_encrypted_channel($channel)) {
+            if (self::is_encrypted_channel($channel)) {
                 if ($unencrypted_seen) {
                     return true;
                 }
@@ -44,7 +46,7 @@ class PusherCrypto
                 $unencrypted_seen = true;
             }
         }
-        
+
         return false;
     }
 

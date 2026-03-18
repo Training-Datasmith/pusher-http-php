@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace acceptance;
 
 use GuzzleHttp;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Exception\RequestException;
 use PHPUnit\Framework\TestCase;
-use Pusher\ApiErrorException;
 use Pusher\Pusher;
 use Pusher\PusherException;
 use stdClass;
@@ -37,7 +36,7 @@ class TerminateUserConnectionsTest extends TestCase
 
     public function testTerminateUserConections(): void
     {
-        $result = $this->pusher->terminateUserConnections("123");
+        $result = $this->pusher->terminateUserConnections('123');
         self::assertEquals(new stdClass(), $result);
         self::assertEquals(1, count($this->request_history));
         $request = $this->request_history[0]['request'];
@@ -48,7 +47,7 @@ class TerminateUserConnectionsTest extends TestCase
 
     public function testTerminateUserConectionsAsync(): void
     {
-        $result = $this->pusher->terminateUserConnectionsAsync("123")->wait();
+        $result = $this->pusher->terminateUserConnectionsAsync('123')->wait();
         self::assertEquals(new stdClass(), $result);
         self::assertEquals(1, count($this->request_history));
         $request = $this->request_history[0]['request'];
@@ -60,12 +59,12 @@ class TerminateUserConnectionsTest extends TestCase
     public function testBadUserId(): void
     {
         $this->expectException(PusherException::class);
-        $this->pusher->terminateUserConnections("");
+        $this->pusher->terminateUserConnections('');
     }
 
     public function testBadUserIdAsync(): void
     {
         $this->expectException(PusherException::class);
-        $this->pusher->terminateUserConnectionsAsync("");
+        $this->pusher->terminateUserConnectionsAsync('');
     }
 }

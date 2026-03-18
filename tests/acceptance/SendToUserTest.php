@@ -1,19 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace acceptance;
 
-use GuzzleHttp;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Exception\RequestException;
 use PHPUnit\Framework\TestCase;
-use Pusher\ApiErrorException;
 use Pusher\Pusher;
 use Pusher\PusherException;
 use stdClass;
 
 class SendToUserTest extends TestCase
 {
-
     /**
      * @var Pusher
      */
@@ -45,12 +42,12 @@ class SendToUserTest extends TestCase
     public function testBadUserId(): void
     {
         $this->expectException(PusherException::class);
-        $this->pusher->terminateUserConnections("");
+        $this->pusher->terminateUserConnections('');
     }
 
     public function testBadUserIdAsync(): void
     {
         $this->expectException(PusherException::class);
-        $this->pusher->terminateUserConnectionsAsync("");
+        $this->pusher->terminateUserConnectionsAsync('');
     }
 }

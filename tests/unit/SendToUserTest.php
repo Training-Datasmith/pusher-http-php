@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace unit;
 
 use GuzzleHttp;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Exception\RequestException;
 use PHPUnit\Framework\TestCase;
-use Pusher\ApiErrorException;
 use Pusher\Pusher;
 use Pusher\PusherException;
 use stdClass;
@@ -22,13 +22,13 @@ class SendToUserTest extends TestCase
         $handlerStack = GuzzleHttp\HandlerStack::create($mockHandler);
         $handlerStack->push($history);
         $httpClient = new GuzzleHttp\Client(['handler' => $handlerStack]);
-        return new Pusher("auth-key", "secret", "appid", ['cluster' => 'test1'], $httpClient);
+        return new Pusher('auth-key', 'secret', 'appid', ['cluster' => 'test1'], $httpClient);
     }
 
     public function testSendUser(): void
     {
-        $pusher = $this->mockPusher([new Response(200, [], "{}")]);
-        $result = $pusher->sendToUser("123", "my-event", "event-data");
+        $pusher = $this->mockPusher([new Response(200, [], '{}')]);
+        $result = $pusher->sendToUser('123', 'my-event', 'event-data');
         self::assertEquals(new stdClass(), $result);
         self::assertEquals(1, count($this->request_history));
         $request = $this->request_history[0]['request'];
@@ -45,13 +45,13 @@ class SendToUserTest extends TestCase
     {
         $pusher = $this->mockPusher([]);
         $this->expectException(PusherException::class);
-        $pusher->sendToUser("", "my-event", "event data");
+        $pusher->sendToUser('', 'my-event', 'event data');
     }
 
     public function testBadUserIdAsync(): void
     {
         $pusher = $this->mockPusher([]);
         $this->expectException(PusherException::class);
-        $pusher->sendToUserAsync("", "my-event", "event data");
+        $pusher->sendToUserAsync('', 'my-event', 'event data');
     }
 }

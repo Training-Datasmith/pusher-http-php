@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 const PUSHERAPP_APPID = '';
 const PUSHERAPP_AUTHKEY = '';
 const PUSHERAPP_SECRET = '';

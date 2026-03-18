@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace acceptance;
 
 use PHPUnit\Framework\TestCase;
@@ -57,7 +59,7 @@ class TriggerAsyncTest extends TestCase
         $expectedResult = new stdClass();
         $expectedResult->channels = [
             TEST_CHANNEL => $expectedMyChannel,
-            "presence-my-channel" => $expectedPresenceMyChannel,
+            'presence-my-channel' => $expectedPresenceMyChannel,
         ];
 
         $result = $this->pusher->triggerAsync([TEST_CHANNEL, 'presence-my-channel'], 'my_event', ['test' => 1], ['info' => 'user_count,subscription_count'])->wait();
@@ -68,7 +70,7 @@ class TriggerAsyncTest extends TestCase
     {
         $options = [
             'useTLS' => true,
-            'cluster' => PUSHERAPP_CLUSTER
+            'cluster' => PUSHERAPP_CLUSTER,
         ];
         $pusher = new Pusher(PUSHERAPP_AUTHKEY, PUSHERAPP_SECRET, PUSHERAPP_APPID, $options);
 

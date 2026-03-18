@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace acceptance;
 
 use PHPUnit\Framework\TestCase;
@@ -60,8 +62,11 @@ class ChannelQueryTest extends TestCase
 
         $channels = $result->channels;
 
-        $this->assertCount(1, $channels,
-            'channels have a single test-channel present. For this test to pass you must have the "Getting Started" page open on the dashboard for the app you are testing against');
+        $this->assertCount(
+            1,
+            $channels,
+            'channels have a single test-channel present. For this test to pass you must have the "Getting Started" page open on the dashboard for the app you are testing against'
+        );
     }
 
     public function testUsersInfo(): void
@@ -87,8 +92,11 @@ class ChannelQueryTest extends TestCase
 
         $channels = $result['channels'];
 
-        self::assertGreaterThanOrEqual(1, $channels,
-            'channels have a single my-channel present. For this test to pass you must have the "Getting Started" page open on the dashboard for the app you are testing against');
+        self::assertGreaterThanOrEqual(
+            1,
+            $channels,
+            'channels have a single my-channel present. For this test to pass you must have the "Getting Started" page open on the dashboard for the app you are testing against'
+        );
 
         $my_channel = $channels[TEST_CHANNEL];
 
@@ -102,8 +110,11 @@ class ChannelQueryTest extends TestCase
 
         $channels = $result['channels'];
 
-        self::assertCount(1, $channels,
-            'channels have a single my-channel present. For this test to pass you must have the "Getting Started" page open on the dashboard for the app you are testing against');
+        self::assertCount(
+            1,
+            $channels,
+            'channels have a single my-channel present. For this test to pass you must have the "Getting Started" page open on the dashboard for the app you are testing against'
+        );
 
         $my_channel = $channels[TEST_CHANNEL];
 

@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace unit;
 
 use GuzzleHttp;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Exception\RequestException;
 use PHPUnit\Framework\TestCase;
 use Pusher\ApiErrorException;
 use Pusher\Pusher;
@@ -22,13 +23,13 @@ class TerminateUserConnectionsUnitTest extends TestCase
         $handlerStack = GuzzleHttp\HandlerStack::create($mockHandler);
         $handlerStack->push($history);
         $httpClient = new GuzzleHttp\Client(['handler' => $handlerStack]);
-        return new Pusher("auth-key", "secret", "appid", ['cluster' => 'test1'], $httpClient);
+        return new Pusher('auth-key', 'secret', 'appid', ['cluster' => 'test1'], $httpClient);
     }
 
     public function testTerminateUserConections(): void
     {
-        $pusher = $this->mockPusher([new Response(200, [], "{}")]);
-        $result = $pusher->terminateUserConnections("123");
+        $pusher = $this->mockPusher([new Response(200, [], '{}')]);
+        $result = $pusher->terminateUserConnections('123');
         self::assertEquals(new stdClass(), $result);
         self::assertEquals(1, count($this->request_history));
         $request = $this->request_history[0]['request'];
@@ -39,8 +40,8 @@ class TerminateUserConnectionsUnitTest extends TestCase
 
     public function testTerminateUserConectionsAsync(): void
     {
-        $pusher = $this->mockPusher([new Response(200, [], "{}")]);
-        $result = $pusher->terminateUserConnectionsAsync("123")->wait();
+        $pusher = $this->mockPusher([new Response(200, [], '{}')]);
+        $result = $pusher->terminateUserConnectionsAsync('123')->wait();
         self::assertEquals(new stdClass(), $result);
         self::assertEquals(1, count($this->request_history));
         $request = $this->request_history[0]['request'];
@@ -53,27 +54,27 @@ class TerminateUserConnectionsUnitTest extends TestCase
     {
         $pusher = $this->mockPusher([]);
         $this->expectException(PusherException::class);
-        $pusher->terminateUserConnections("");
+        $pusher->terminateUserConnections('');
     }
 
     public function testBadUserIdAsync(): void
     {
         $pusher = $this->mockPusher([]);
         $this->expectException(PusherException::class);
-        $pusher->terminateUserConnectionsAsync("");
+        $pusher->terminateUserConnectionsAsync('');
     }
 
     public function testTerminateUserConectionsError(): void
     {
-        $pusher = $this->mockPusher([new Response(500, [], "{}")]);
+        $pusher = $this->mockPusher([new Response(500, [], '{}')]);
         $this->expectException(ApiErrorException::class);
-        $pusher->terminateUserConnections("123");
+        $pusher->terminateUserConnections('123');
     }
 
     public function testTerminateUserConectionsAsyncError(): void
     {
-        $pusher = $this->mockPusher([new Response(500, [], "{}")]);
+        $pusher = $this->mockPusher([new Response(500, [], '{}')]);
         $this->expectException(ApiErrorException::class);
-        $pusher->terminateUserConnectionsAsync("123")->wait();
+        $pusher->terminateUserConnectionsAsync('123')->wait();
     }
 }

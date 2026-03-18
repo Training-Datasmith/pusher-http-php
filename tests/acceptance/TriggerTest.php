@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace acceptance;
 
 use PHPUnit\Framework\TestCase;
@@ -59,7 +61,7 @@ class TriggerTest extends TestCase
         $expectedResult = new stdClass();
         $expectedResult->channels = [
             TEST_CHANNEL => $expectedMyChannel,
-            "presence-my-channel" => $expectedPresenceMyChannel,
+            'presence-my-channel' => $expectedPresenceMyChannel,
         ];
 
         $result = $this->pusher->trigger([TEST_CHANNEL, 'presence-my-channel'], 'my_event', ['test' => 1], ['info' => 'user_count,subscription_count']);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 error_reporting(E_ALL);
 
 if (file_exists(__DIR__ . '/config.php') === true) {

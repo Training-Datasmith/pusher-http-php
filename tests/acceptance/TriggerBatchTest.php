@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace acceptance;
 
 use Error;
@@ -43,7 +45,7 @@ class TriggerBatchTest extends TestCase
     {
         $options = [
             'useTLS' => true,
-            'cluster' => PUSHERAPP_CLUSTER
+            'cluster' => PUSHERAPP_CLUSTER,
         ];
         $pc = new Pusher(PUSHERAPP_AUTHKEY, PUSHERAPP_SECRET, PUSHERAPP_APPID, $options);
 
@@ -57,7 +59,7 @@ class TriggerBatchTest extends TestCase
     {
         $options = [
             'useTLS' => true,
-            'cluster' => PUSHERAPP_CLUSTER
+            'cluster' => PUSHERAPP_CLUSTER,
         ];
         $pc = new Pusher(PUSHERAPP_AUTHKEY, PUSHERAPP_SECRET, PUSHERAPP_APPID, $options);
 
@@ -72,7 +74,7 @@ class TriggerBatchTest extends TestCase
     {
         $options = [
             'useTLS' => true,
-            'cluster' => PUSHERAPP_CLUSTER
+            'cluster' => PUSHERAPP_CLUSTER,
         ];
         $pc = new Pusher(PUSHERAPP_AUTHKEY, PUSHERAPP_SECRET, PUSHERAPP_APPID, $options);
 
@@ -86,7 +88,7 @@ class TriggerBatchTest extends TestCase
     {
         $options = [
             'useTLS' => true,
-            'cluster' => PUSHERAPP_CLUSTER
+            'cluster' => PUSHERAPP_CLUSTER,
         ];
         $pc = new Pusher(PUSHERAPP_AUTHKEY, PUSHERAPP_SECRET, PUSHERAPP_APPID, $options);
 
@@ -100,7 +102,7 @@ class TriggerBatchTest extends TestCase
         $expectedResult->batch = [
             $expectedMyChannel,
             $expectedMyChannel2,
-            $expectedPresenceMyChannel
+            $expectedPresenceMyChannel,
         ];
 
         $batch = [];
@@ -115,7 +117,7 @@ class TriggerBatchTest extends TestCase
     {
         $options = [
             'useTLS' => true,
-            'cluster' => PUSHERAPP_CLUSTER
+            'cluster' => PUSHERAPP_CLUSTER,
         ];
         $pc = new Pusher(PUSHERAPP_AUTHKEY, PUSHERAPP_SECRET, PUSHERAPP_APPID, $options);
 
@@ -130,7 +132,7 @@ class TriggerBatchTest extends TestCase
     {
         $options = [
             'useTLS' => true,
-            'cluster' => PUSHERAPP_CLUSTER
+            'cluster' => PUSHERAPP_CLUSTER,
         ];
         $pc = new Pusher(PUSHERAPP_AUTHKEY, PUSHERAPP_SECRET, PUSHERAPP_APPID, $options);
 
@@ -194,7 +196,7 @@ class TriggerBatchTest extends TestCase
 
         $options = [
             'useTLS' => true,
-            'cluster' => PUSHERAPP_CLUSTER
+            'cluster' => PUSHERAPP_CLUSTER,
         ];
         $pc = new Pusher(PUSHERAPP_AUTHKEY, PUSHERAPP_SECRET, PUSHERAPP_APPID, $options);
 

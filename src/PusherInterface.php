@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pusher;
 
 use GuzzleHttp\Exception\GuzzleException;
@@ -160,7 +162,6 @@ interface PusherInterface
      * @throws PusherException if signature is incorrect.
      */
     public function verifySignature(array $headers, string $body);
-
 
     /*******************************************************************
      *

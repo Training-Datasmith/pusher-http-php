@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace acceptance;
 
 use Error;
@@ -99,7 +101,7 @@ class TriggerBatchAsyncTest extends TestCase
         $expectedResult->batch = [
             $expectedMyChannel,
             $expectedMyChannel2,
-            $expectedPresenceMyChannel
+            $expectedPresenceMyChannel,
         ];
 
         $batch = [];

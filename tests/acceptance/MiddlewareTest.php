@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace acceptance;
 
 use Closure;
 use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Handler\CurlHandler;
+use GuzzleHttp\HandlerStack;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Pusher\Pusher;

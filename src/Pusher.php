@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pusher;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Psr7\Request;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Promise\PromiseInterface;
 
 class Pusher implements LoggerAwareInterface, PusherInterface
 {
@@ -109,7 +111,6 @@ class Pusher implements LoggerAwareInterface, PusherInterface
             );
             $this->crypto = new PusherCrypto($parsedKey);
         }
-
 
         if (!is_null($client)) {
             $this->client = $client;
@@ -393,12 +394,12 @@ class Pusher implements LoggerAwareInterface, PusherInterface
 
         $headers = [
             'Content-Type' => 'application/json',
-            'X-Pusher-Library' => 'pusher-http-php ' . self::$VERSION
+            'X-Pusher-Library' => 'pusher-http-php ' . self::$VERSION,
         ];
 
         $params = array_merge($signature, $query_params);
         $query_string = self::array_implode('=', '&', $params);
-        $full_path = ltrim($path, '/') . "?" . $query_string;
+        $full_path = ltrim($path, '/') . '?' . $query_string;
         return new Request('POST', $full_path, $headers, $post_value);
     }
 
@@ -469,7 +470,6 @@ class Pusher implements LoggerAwareInterface, PusherInterface
         return $this->triggerAsync(["#server-to-user-$user_id"], $event, $data, [], $already_encoded);
     }
 
-
     /**
      * @deprecated in favour of of trigger and triggerAsync
      */
@@ -515,12 +515,12 @@ class Pusher implements LoggerAwareInterface, PusherInterface
 
         $headers = [
             'Content-Type' => 'application/json',
-            'X-Pusher-Library' => 'pusher-http-php ' . self::$VERSION
+            'X-Pusher-Library' => 'pusher-http-php ' . self::$VERSION,
         ];
 
         $params = array_merge($signature, $query_params);
         $query_string = self::array_implode('=', '&', $params);
-        $full_path = $path . "?" . $query_string;
+        $full_path = $path . '?' . $query_string;
         return new Request('POST', $full_path, $headers, $post_value);
     }
 
@@ -571,7 +571,7 @@ class Pusher implements LoggerAwareInterface, PusherInterface
     public function terminateUserConnections(string $user_id): object
     {
         $this->validate_user_id($user_id);
-        return $this->post("/users/$user_id/terminate_connections", "{}");
+        return $this->post("/users/$user_id/terminate_connections", '{}');
     }
 
     /**
@@ -586,9 +586,8 @@ class Pusher implements LoggerAwareInterface, PusherInterface
     public function terminateUserConnectionsAsync(string $user_id): PromiseInterface
     {
         $this->validate_user_id($user_id);
-        return $this->postAsync("/users/$user_id/terminate_connections", "{}");
+        return $this->postAsync("/users/$user_id/terminate_connections", '{}');
     }
-
 
     /**
      * Fetch channel information for a specific channel.
@@ -686,7 +685,7 @@ class Pusher implements LoggerAwareInterface, PusherInterface
 
         $headers = [
             'Content-Type' => 'application/json',
-            'X-Pusher-Library' => 'pusher-http-php ' . self::$VERSION
+            'X-Pusher-Library' => 'pusher-http-php ' . self::$VERSION,
         ];
 
         $response = $this->client->get(ltrim($path, '/'), [
@@ -694,7 +693,7 @@ class Pusher implements LoggerAwareInterface, PusherInterface
             'http_errors' => false,
             'headers' => $headers,
             'base_uri' => $this->channels_url_prefix(),
-            'timeout' => $this->settings['timeout']
+            'timeout' => $this->settings['timeout'],
         ]);
 
         $status = $response->getStatusCode();
@@ -737,7 +736,7 @@ class Pusher implements LoggerAwareInterface, PusherInterface
 
         $headers = [
             'Content-Type' => 'application/json',
-            'X-Pusher-Library' => 'pusher-http-php ' . self::$VERSION
+            'X-Pusher-Library' => 'pusher-http-php ' . self::$VERSION,
         ];
 
         try {
@@ -747,7 +746,7 @@ class Pusher implements LoggerAwareInterface, PusherInterface
                 'http_errors' => false,
                 'headers' => $headers,
                 'base_uri' => $this->channels_url_prefix(),
-                'timeout' => $this->settings['timeout']
+                'timeout' => $this->settings['timeout'],
             ]);
         } catch (ConnectException $e) {
             throw new ApiErrorException($e->getMessage());
@@ -789,7 +788,7 @@ class Pusher implements LoggerAwareInterface, PusherInterface
 
         $headers = [
             'Content-Type' => 'application/json',
-            'X-Pusher-Library' => 'pusher-http-php ' . self::$VERSION
+            'X-Pusher-Library' => 'pusher-http-php ' . self::$VERSION,
         ];
 
         return $this->client->postAsync(ltrim($path, '/'), [
@@ -903,7 +902,6 @@ class Pusher implements LoggerAwareInterface, PusherInterface
             throw new PusherException('Data encoding error.');
         }
     }
-
 
     /**
      * @deprecated in favour of authorizeChannel
