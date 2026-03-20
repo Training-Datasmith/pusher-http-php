@@ -1,7 +1,19 @@
 {
     "name": "pusher/pusher-php-server",
-    "description" : "Library for interacting with the Pusher REST API",
-    "keywords": ["php-pusher-server", "pusher", "rest", "realtime", "real-time", "real time", "messaging", "push", "trigger", "publish", "events"],
+    "description": "Library for interacting with the Pusher REST API",
+    "keywords": [
+        "php-pusher-server",
+        "pusher",
+        "rest",
+        "realtime",
+        "real-time",
+        "real time",
+        "messaging",
+        "push",
+        "trigger",
+        "publish",
+        "events"
+    ],
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
@@ -21,7 +33,9 @@
         }
     },
     "autoload-dev": {
-        "psr-4": { "": "tests/" }
+        "psr-4": {
+            "\\": "tests/"
+        }
     },
     "config": {
         "preferred-install": "dist"
