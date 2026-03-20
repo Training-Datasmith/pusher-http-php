@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Pusher;
 
 /**
@@ -9,13 +8,13 @@ namespace Pusher;
  * getCode() will return the response HTTP status code,
  * and getMessage() will return the response body.
  */
-class ApiErrorException extends PusherException
+class Api_Error_Exception extends Pusher_Exception
 {
     /**
      * Returns the string representation of the exception.
      */
     public function __toString(): string
     {
-        return "(Status {$this->getCode()}) {$this->getMessage()}";
+        return "(Status {$this->get_code()}) {$this->get_message()}";
     }
 }

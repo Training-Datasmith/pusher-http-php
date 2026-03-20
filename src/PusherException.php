@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Pusher;
 
 use Exception;
-
-class PusherException extends Exception
+class Pusher_Exception extends Exception
 {
 }

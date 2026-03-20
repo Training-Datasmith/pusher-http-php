@@ -1,16 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Pusher;
 
-class PusherCrypto
+class Pusher_Crypto
 {
     private $encryption_master_key;
-
     // The prefix any e2e channel must have
     public const ENCRYPTED_PREFIX = 'private-encrypted-';
-
     /**
      * Checks if a given channel is an encrypted channel.
      *
@@ -22,7 +19,6 @@ class PusherCrypto
     {
         return strpos($channel, self::ENCRYPTED_PREFIX) === 0;
     }
-
     /**
      * Checks if channels are a mix of encrypted and non-encrypted types.
      *
@@ -32,7 +28,6 @@ class PusherCrypto
     {
         $unencrypted_seen = false;
         $encrypted_seen = false;
-
         foreach ($channels as $channel) {
             if (self::is_encrypted_channel($channel)) {
                 if ($unencrypted_seen) {
@@ -46,10 +41,8 @@ class PusherCrypto
                 $unencrypted_seen = true;
             }
         }
-
         return false;
     }
-
     /**
      * @param $encryption_master_key_base64
      * @throws PusherException
@@ -57,25 +50,20 @@ class PusherCrypto
     public static function parse_master_key($encryption_master_key_base64): string
     {
         if (!function_exists('sodium_crypto_secretbox')) {
-            throw new PusherException('To use end to end encryption, you must either be using PHP 7.2 or greater or have installed the libsodium-php extension for php < 7.2.');
+            throw new Pusher_Exception('To use end to end encryption, you must either be using PHP 7.2 or greater or have installed the libsodium-php extension for php < 7.2.');
         }
-
         if ($encryption_master_key_base64 !== '') {
             $decoded_key = base64_decode($encryption_master_key_base64, true);
             if ($decoded_key === false) {
-                throw new PusherException('encryption_master_key_base64 must be a valid base64 string');
+                throw new Pusher_Exception('encryption_master_key_base64 must be a valid base64 string');
             }
-
             if (strlen($decoded_key) !== SODIUM_CRYPTO_SECRETBOX_KEYBYTES) {
-                throw new PusherException('encryption_master_key_base64 must encode a key which is 32 bytes long');
+                throw new Pusher_Exception('encryption_master_key_base64 must encode a key which is 32 bytes long');
             }
-
             return $decoded_key;
         }
-
         return '';
     }
-
     /**
      * Initialises a PusherCrypto instance.
      *
@@ -85,7 +73,6 @@ class PusherCrypto
     {
         $this->encryption_master_key = $encryption_master_key;
     }
-
     /**
      * Decrypts a given event.
      *
@@ -100,13 +87,11 @@ class PusherCrypto
         $shared_secret = $this->generate_shared_secret($event->channel);
         $decrypted_payload = $this->decrypt_payload($parsed_payload->ciphertext, $parsed_payload->nonce, $shared_secret);
         if (!$decrypted_payload) {
-            throw new PusherException('Decryption of the payload failed. Wrong key?');
+            throw new Pusher_Exception('Decryption of the payload failed. Wrong key?');
         }
         $event->data = $decrypted_payload;
-
         return $event;
     }
-
     /**
      * Derives a shared secret from the secret key and the channel to broadcast to.
      *
@@ -118,12 +103,10 @@ class PusherCrypto
     public function generate_shared_secret(string $channel): string
     {
         if (!self::is_encrypted_channel($channel)) {
-            throw new PusherException('You must specify a channel of the form private-encrypted-* for E2E encryption. Got ' . $channel);
+            throw new Pusher_Exception('You must specify a channel of the form private-encrypted-* for E2E encryption. Got ' . $channel);
         }
-
         return hash('sha256', $channel . $this->encryption_master_key, true);
     }
-
     /**
      * Encrypts a given plaintext for broadcast on a particular channel.
      *
@@ -137,19 +120,17 @@ class PusherCrypto
     public function encrypt_payload(string $channel, string $plaintext): string
     {
         if (!self::is_encrypted_channel($channel)) {
-            throw new PusherException('Cannot encrypt plaintext for a channel that is not of the form private-encrypted-*. Got ' . $channel);
+            throw new Pusher_Exception('Cannot encrypt plaintext for a channel that is not of the form private-encrypted-*. Got ' . $channel);
         }
         $nonce = $this->generate_nonce();
         $shared_secret = $this->generate_shared_secret($channel);
         $cipher_text = sodium_crypto_secretbox($plaintext, $nonce, $shared_secret);
-
         try {
             return $this->format_encrypted_message($nonce, $cipher_text);
-        } catch (\JsonException $e) {
-            throw new PusherException('Data encoding error.');
+        } catch (\Json_Exception $e) {
+            throw new Pusher_Exception('Data encoding error.');
         }
     }
-
     /**
      * Decrypts a given payload using the nonce and shared secret.
      *
@@ -166,10 +147,8 @@ class PusherCrypto
         if (empty($plaintext)) {
             return false;
         }
-
         return $plaintext;
     }
-
     /**
      * Formats an encrypted message ready for broadcast.
      *
@@ -184,10 +163,8 @@ class PusherCrypto
         $encrypted_message = new \stdClass();
         $encrypted_message->nonce = base64_encode($nonce);
         $encrypted_message->ciphertext = base64_encode($ciphertext);
-
         return json_encode($encrypted_message, JSON_THROW_ON_ERROR);
     }
-
     /**
      * Parses an encrypted message into its nonce and ciphertext components.
      *
@@ -201,27 +178,22 @@ class PusherCrypto
     {
         try {
             $decoded_payload = json_decode($payload, false, 512, JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
-            throw new PusherException('Data decoding error.');
+        } catch (\Json_Exception $e) {
+            throw new Pusher_Exception('Data decoding error.');
         }
-
         $decoded_payload->nonce = base64_decode($decoded_payload->nonce);
         $decoded_payload->ciphertext = base64_decode($decoded_payload->ciphertext);
         if ($decoded_payload->ciphertext === '' || strlen($decoded_payload->nonce) !== SODIUM_CRYPTO_SECRETBOX_NONCEBYTES) {
-            throw new PusherException('Received a payload that cannot be parsed.');
+            throw new Pusher_Exception('Received a payload that cannot be parsed.');
         }
-
         return $decoded_payload;
     }
-
     /**
      * Generates a nonce that is SODIUM_CRYPTO_SECRETBOX_NONCEBYTES long.
      * @throws \Exception
      */
     private function generate_nonce(): string
     {
-        return random_bytes(
-            SODIUM_CRYPTO_SECRETBOX_NONCEBYTES
-        );
+        return random_bytes(SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
     }
 }
